@@ -9,6 +9,14 @@ const dbConnection = sqlite.open(path.resolve(__dirname, 'banco.sqlite'), { Prom
 
 const port = process.env.PORT || 3000
 
+app.use('/admin', (req, res, next) => {
+    if (req.hostname === 'localhost') {
+        next()
+    } else {
+        res.send('Not allowed')
+    }
+})
+
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')     // configuração para que possa ser usado o ejs com o express
 app.use(express.static(path.join(__dirname, 'public'))) // configuração que permite você acessar, através de servidor, arquivos dentro da pasta public, como com o caminho '/img/logo.png'
