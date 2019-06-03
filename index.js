@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000
 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')     // configuração para que possa ser usado o ejs com o express
-app.use(express.static('public')) // configuração que permite você acessar, através de servidor, arquivos dentro da pasta public, como com o caminho '/img/logo.png'
+app.use(express.static(path.join(__dirname, 'public'))) // configuração que permite você acessar, através de servidor, arquivos dentro da pasta public, como com o caminho '/img/logo.png'
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', async(request, response) => {
