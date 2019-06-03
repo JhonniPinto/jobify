@@ -18,14 +18,11 @@ app.use('/admin', (req, res, next) => {
 })
 
 app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs')     // configuração para que possa ser usado o ejs com o express
-app.use(express.static(path.join(__dirname, 'public'))) // configuração que permite você acessar, através de servidor, arquivos dentro da pasta public, como com o caminho '/img/logo.png'
+app.set('view engine', 'ejs')   
+app.use(express.static(path.join(__dirname, 'public'))) 
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', async(request, response) => {
-    // se não for criado a pasta views(padrão) e o arquivo home.ejs(não é padrão), da erro.
-    // daqui pra frente é renderizado o arquivo por motivo de uma linguagem de template javascript
-    // se não fosse usado ejs, seria response.send('<h1>Título</h1>' ou arquivo html)
     const db = await dbConnection
     const categoriasDb = await db.all('select * from categorias;')
     const vagas = await db.all('select * from vagas;')
@@ -130,15 +127,9 @@ const init = async() => {
     const db = await dbConnection
     await db.run('create table if not exists categorias (id INTEGER PRIMARY KEY, categoria TEXT)')
     await db.run('create table if not exists vagas (id INTEGER PRIMARY KEY, categoria INTEGER, titulo TEXT, descricao TEXT)')
-    // const categoria = 'Marketing team'
-    // await db.run(`insert into categorias(categoria) values('${categoria}')`)
-    // const vaga = 'Social Media (San Francisco)'
-    // const descricao = 'Vaga paga FullStack Developer que fez o FullStack Master'
-    // await db.run(`insert into vagas(categoria, titulo, descricao) values(3, '${vaga}', '${descricao}')`)
-}
+  }
 init()
-// app.listen(3000) é um serviço do express() chamado de ouvinte, que abre uma porta no nosso computador para a comunicação via servidor, onde vamos ouvir o resquest e retornar a response tais informações
-// portas até 1000, são portas privilegiadas, que são usadas para a publicação do projeto. Porta 80 para http e 443 para https, normalmente. Portas como 3000 ou 8080 são portas usadas para desenvolvimento, pois são menos monitoradas por firewalls, por exemplo, que poderiam complicar.
+
 app.listen(port, (err) => {
     if (err) {
         console.log('Não foi possível iniciar o servidor do JobiFy. Erro:', err)
